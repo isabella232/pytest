@@ -1005,15 +1005,18 @@ class Config(object):
         and find all the installed plugins to mark them for rewriting
         by the importhook.
         """
-        ns, unknown_args = self._parser.parse_known_and_unknown_args(args)
-        mode = ns.assertmode
-        if mode == 'rewrite':
-            try:
-                hook = _pytest.assertion.install_importhook(self)
-            except SystemError:
-                mode = 'plain'
-            else:
-                self._mark_plugins_for_rewrite(hook)
+        if os.environ.get('PYTHONDONTWRITEBYTECODE', None) is not None:
+            mode = 'plain'
+        else:
+            ns, unknown_args = self._parser.parse_known_and_unknown_args(args)
+            mode = ns.assertmode
+            if mode == 'rewrite':
+                try:
+                    hook = _pytest.assertion.install_importhook(self)
+                except SystemError:
+                    mode = 'plain'
+                else:
+                    self._mark_plugins_for_rewrite(hook)
         _warn_about_missing_assertion(mode)
 
     def _mark_plugins_for_rewrite(self, hook):
