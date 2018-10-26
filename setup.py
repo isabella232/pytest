@@ -84,9 +84,10 @@ def main():
         name='pytest',
         description='pytest: simple powerful testing with Python',
         long_description=long_description,
-        use_scm_version={
-            'write_to': '_pytest/_version.py',
-        },
+        # use_scm_version={
+        #     'write_to': '_pytest/_version.py',
+        # },
+        version='3.6.1-rc.1',
         url='http://pytest.org',
         project_urls={
             'Source': 'https://github.com/pytest-dev/pytest',
